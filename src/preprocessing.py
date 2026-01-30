@@ -4,18 +4,27 @@ Handles normalization, diacritics removal, and AraBERT-specific preprocessing.
 """
 import re
 import unicodedata
+import logging
 from typing import List, Optional
 
-from arabert.preprocess import ArabertPreprocessor
-
 from .config import ARABIC_DIACRITICS
+
+logger = logging.getLogger(__name__)
 
 
 class ArabicTextPreprocessor:
     """Preprocessor for Arabic text with AraBERT-specific normalization."""
 
     def __init__(self, model_name: str = "aubmindlab/bert-base-arabertv2"):
-        self.arabert_prep = ArabertPreprocessor(model_name=model_name)
+        self.arabert_prep = None
+        try:
+            from arabert.preprocess import ArabertPreprocessor
+            self.arabert_prep = ArabertPreprocessor(model_name=model_name)
+        except Exception as e:
+            logger.warning(
+                f"Could not initialize ArabertPreprocessor (Java/Farasa may be missing): {e}. "
+                "Falling back to basic Arabic preprocessing."
+            )
 
     def remove_diacritics(self, text: str) -> str:
         """Remove Arabic diacritical marks (tashkeel)."""
@@ -64,7 +73,7 @@ class ArabicTextPreprocessor:
         text = self.remove_diacritics(text)
 
         # AraBERT preprocessing (handles farasa segmentation internally)
-        if use_arabert:
+        if use_arabert and self.arabert_prep is not None:
             text = self.arabert_prep.preprocess(text)
 
         return text

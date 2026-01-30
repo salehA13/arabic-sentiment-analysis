@@ -9,7 +9,7 @@ from typing import Dict, Optional
 import torch
 import numpy as np
 from torch.optim import AdamW
-from torch.cuda.amp import GradScaler, autocast
+from torch.amp import GradScaler, autocast
 from transformers import get_linear_schedule_with_warmup
 from sklearn.metrics import f1_score, accuracy_score
 from tqdm import tqdm
@@ -80,7 +80,7 @@ class SentimentTrainer:
 
         # Mixed precision
         self.use_amp = config.fp16 and self.device.type == "cuda"
-        self.scaler = GradScaler() if self.use_amp else None
+        self.scaler = GradScaler("cuda") if self.use_amp else None
 
         # Tracking
         self.history = {
@@ -111,7 +111,7 @@ class SentimentTrainer:
             self.optimizer.zero_grad()
 
             if self.use_amp:
-                with autocast():
+                with autocast("cuda"):
                     outputs = self.model(input_ids, attention_mask, labels)
                     loss = outputs["loss"]
                 self.scaler.scale(loss).backward()
