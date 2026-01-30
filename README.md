@@ -2,6 +2,8 @@
 
 # 🇸🇦 Arabic Sentiment Analysis
 
+![CI](https://github.com/salehA13/arabic-sentiment-analysis/actions/workflows/ci.yml/badge.svg)
+
 **Deep learning pipeline for Arabic text sentiment classification using fine-tuned AraBERT**
 
 [![Python 3.9+](https://img.shields.io/badge/Python-3.9+-3776AB?style=for-the-badge&logo=python&logoColor=white)](https://python.org)
