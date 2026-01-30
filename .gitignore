@@ -39,3 +39,12 @@ Thumbs.db
 # Data cache
 data/cache/
 .cache/
+
+# Results (regenerated)
+results/*.png
+results/*.json
+
+# Testing
+.pytest_cache/
+htmlcov/
+.coverage
