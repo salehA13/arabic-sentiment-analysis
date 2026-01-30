@@ -1,0 +1,41 @@
+# Python
+__pycache__/
+*.py[cod]
+*.egg-info/
+dist/
+build/
+.eggs/
+*.egg
+
+# Virtual environments
+venv/
+env/
+.env/
+
+# Models (too large for git)
+models/arabert-sentiment/best_model.pt
+models/arabert-sentiment/*.pt
+*.bin
+*.safetensors
+
+# Keep directory structure
+!models/.gitkeep
+!data/.gitkeep
+
+# IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Jupyter
+.ipynb_checkpoints/
+*.ipynb
+
+# Data cache
+data/cache/
+.cache/
